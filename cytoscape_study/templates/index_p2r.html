@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="../static/echarts.min.js"></script>
+    <script src="../static/jquery-1.11.2.min.js"></script>
+    <frame-options policy="SAMEORIGIN"></frame-options>
+
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1200px;height:800px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+
+    var ROOT_PATH = 'https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/examples';
+
+    var option;
+
+    myChart.showLoading();
+   $.getJSON('/paper2rela/getjson', function (graph) {
+    myChart.hideLoading();
+
+    option = {
+        tooltip: {},
+        legend: [{
+            data: graph.categories.map(function (a) {
+                return a.name;
+            })
+        }],
+        series: [
+            {
+                name: '节点信息',
+                type: 'graph',
+                layout: 'force',
+                symbolSize:50,
+                data: graph.nodes,
+                links: graph.links,
+                categories: graph.categories,
+                roam: true,
+                label: {
+                    show: true,
+                    position: 'up',
+                    formatter: '{b}'
+                },
+                labelLayout: {
+                    hideOverlap: true
+                },
+                scaleLimit: {
+                    min: 0.4,
+                    max: 2
+                },
+                lineStyle: {
+                    color: 'source',
+                    curveness: 0.3
+                },
+                force: {
+                    repulsion: 1500
+                }
+            }
+        ]
+    };
+
+    myChart.setOption(option);
+});
+
+    option && myChart.setOption(option);
+
+    </script>
+</body>
+</html>

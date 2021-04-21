@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .demo1div1{
+            height: 50px;
+            background: ghostwhite;
+            border:1px solid grey;
+            text-align: center;
+            position: relative
+        }
+        .demo1div1 p{
+            position: absolute;
+            left: 10%;
+            bottom: 0;
+            padding: 0;
+            margin: 0;
+        }
+        .demo1div2{
+            height: 100px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        .column{
+            height: 30px;
+        }
+        .demo1div3{
+            height: 500px;
+            background: gainsboro;
+        }
+        #btn1{
+            width: 80px;
+            background: deepskyblue;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <div class="demo1div1">
+            <p>查询条件:</p>
+        </div>
+
+        <div class="demo1div2">
+            <label>
+                <input class="column" v-model="entity1" placeholder="实体1">
+            </label>
+            <label>
+                <input class="column" v-model="relation" placeholder="输入关系名称">
+            </label>
+            <label>
+                <input class="column" v-model="entity2" placeholder="实体2">
+            </label>
+            <button class="column" id="btn1" @click="getRelation">搜索</button>
+        </div>
+
+        <div class="demo1div1">
+            <p>关系图:</p>
+        </div>
+
+        <div class="demo1div3">
+
+        </div>
+
+    </div>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                return: {
+                    entity1: '',
+                    relation: '',
+                    entity2: ''
+                }
+            },
+            methods: {
+                getRelation() {
+                    axios.get(url, {
+                        params: {
+                            entity1: this.entity1,
+                            relation: this.relation,
+                            entity2: this.entity2
+                        }
+                    }).then((res) => {
+                        this.msg = res.data;
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

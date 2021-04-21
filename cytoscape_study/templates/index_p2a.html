@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="../static/echarts.min.js"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 1800px;height:1000px;"></div>
+    <script type="text/javascript">
+
+        //写入不定数数组 得到关键词列表
+        var p_keyword='{{ p_data['keyword'] |tojson}}' //避免被转义 经常会有字符 空格 ' "" 等被转义成其他字符，这其实是特殊字符进行转义,防止js注入
+        console.log(p_keyword)
+        a=p_keyword.slice(1,-1).split(',')
+        console.log(a)
+        console.log(typeof a[0])
+        keywnum=a.length
+        console.log(keywnum)
+        a1=[]
+        for (i = 0; i < a.length; i++) {
+            a1.push({"name":a[i].replace(/\s+/g,"").slice(1,-1)})
+        }
+        console.log(a1)
+
+        {#a1=[{"name": a[0].slice(1,-1)}, {"name": a[1].replace(/\s+/g,"").slice(1,-1)}] //正则表达式去空格，子字符串去两边引号#}
+        {#a1.push({"name":'科学发展'})#}
+        {#console.log(typeof a1)#}
+
+        //作者列表
+        var p_author='{{ p_data['author'] |tojson}}'
+        aa=p_author.slice(1,-1).split(',')
+        aa2=[]
+        for (i = 0; i < aa.length; i++) {
+            aa2.push({"name":aa[i].replace(/\s+/g,"").slice(1,-1)})
+        }
+
+
+
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var data = {
+    "name": "文章属性",
+    "children": [
+        {
+            "name": "id",
+            "children": [
+                {
+                    "name": "{{ p_data['id'] }}",
+                },
+            ]
+        },
+        {
+            "name": "author",
+            "children": aa2
+        },
+        {
+            "name": "title",
+            "children": [
+                {"name": "{{ p_data['title'] }}"}
+            ]
+        },
+        {
+            "name": "keyword",
+            "children": a1
+        },
+        {
+            "name": "journal",
+            "children": [
+                {"name": "{{ p_data['journal'] }}"}
+            ]
+        },
+        {
+            "name": "p_time",
+            "children": [
+                {"name": "{{ p_data['p_time'] }}"}
+            ]
+        },
+        {
+            "name": "downnum",
+            "children": [
+                {"name": {{ p_data['downnum'] }}}
+            ]
+        },
+        {
+            "name": "quote",
+            "children": [
+                {"name": {{ p_data['quote'] }}}
+            ]
+        },
+    ]
+};
+
+        var option = {
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove'
+            },
+            series:[
+                {
+                    type: 'tree',
+                    id: 0,
+                    name: 'tree1',
+                    data: [data],
+
+                    top: '10%',
+                    left: '6%',
+                    bottom: '22%',
+                    right: '25%',
+
+                    symbolSize: 20,
+
+                    //edgeShape: 'polyline',
+                    edgeForkPosition: '63%',
+                    initialTreeDepth: 3,
+
+                    lineStyle: {
+                        width: 2
+                    },
+
+                    label: {
+                        backgroundColor: '#fff',
+                        position: 'left',
+                        verticalAlign: 'middle',
+                        align: 'right',
+                        fontSize: 15
+                    },
+
+
+                    leaves: {
+                        label: {
+                            position: 'right',
+                            verticalAlign: 'middle',
+                            align: 'left'
+                        }
+                    },
+
+                    emphasis: {
+                        focus: 'descendant'
+                    },
+
+                    expandAndCollapse: true, //展开和折叠
+                    animationDuration: 550, //动画完成一个周期所需要的时间
+                    animationDurationUpdate: 750
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+</body>
+</html>

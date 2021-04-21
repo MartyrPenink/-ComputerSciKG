@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+
+    <title>Cola.js/Cytoscape.js</title>
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link href="../static/style.css" rel="stylesheet" />
+
+
+    <!-- demo src-->
+    <style>
+        .demo1div1{
+            height: 50px;
+            background: ghostwhite;
+            border:1px solid grey;
+            text-align: center;
+            position: relative
+        }
+        .demo1div1 p{
+            position: absolute;
+            left: 10%;
+            bottom: 0;
+            padding: 0;
+            margin: 0;
+        }
+        .demo1div2{
+            height: 100px;
+        }
+        .column{
+            height: 30px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .demo1div3{
+            height: 500px;
+            background: gainsboro;
+        }
+        #input1{
+            width: 400px;
+            margin-left: 30%;
+        }
+        #input2{
+            width: 400px;
+            margin-left: 30%;
+        }
+        #btn1{
+            width: 80px;
+            background: deepskyblue;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo1div1">
+        <p>查询条件:</p>
+    </div>
+
+    <div class="demo1div2">
+        <label>
+            <input class="column" id="input1" placeholder="输入文章名称1">
+        </label>
+        <label>
+            <input class="column" id="input2" placeholder="输入文章名称2">
+        </label>
+        <button class="column" id="btn1">查询</button>
+    </div>
+    <script type="text/javascript" src="../static/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript">
+
+
+        document.getElementById("btn1").onclick=function(){
+            let x=document.getElementById("input1").value
+            let y=document.getElementById("input2").value
+            $.ajax({
+                url:"http://127.0.0.1:5000/paperjac_title", //转入后端保存两篇文章标题
+                type:"POST",
+                data: {en1: x, en2: y},
+                dataType: "json",
+                success:function(data){
+                    console.log(data);
+                    {#让乳鸽在下面写一个列表异步刷新显示 from to 相似度#}
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+
+    <title>Cola.js/Cytoscape.js</title>
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css">
+    <link href="../static/style.css" rel="stylesheet" />
+
+    <!-- polyfills so the demo works on old browsers, like IE -->
+		<script src="../static/js/classList.min.js"></script>
+    <script src="../static/js/bluebird.js"></script>
+    <script src="../static/js/fetch.umd.js"></script>
+
+    <!-- libs used by demo -->
+    <script src="../static/js/lodash.min.js"></script>
+    <script src="../static/js/cola.min.js"></script>
+    <script src="../static/js/popper.js"></script>
+    <script src="../static/js/tippy.all.js"></script>
+    <!-- cy libs -->
+    <script src="../static/cytoscape.min.js"></script>
+    <script src="../static/js/cytoscape-cola.js"></script>
+    <script src="../static/js/cytoscape-popper.js"></script>
+
+    <!-- demo src-->
+    <script src="../static/code.js"></script>
+    <style>
+        .demo1div1{
+            height: 50px;
+            background: ghostwhite;
+            border:1px solid grey;
+            text-align: center;
+            position: relative
+        }
+        .demo1div1 p{
+            position: absolute;
+            left: 10%;
+            bottom: 0;
+            padding: 0;
+            margin: 0;
+        }
+        .demo1div2{
+            height: 100px;
+        }
+        .column{
+            height: 30px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .demo1div3{
+            height: 500px;
+            background: gainsboro;
+        }
+        #input1{
+            width: 400px;
+            margin-left: 30%;
+        }
+        #btn1{
+            width: 80px;
+            background: deepskyblue;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo1div1">
+        <p>查询条件:</p>
+    </div>
+
+    <div class="demo1div2">
+        <label>
+            <input class="column" id="input1" placeholder="请输入关键词">
+        </label>
+        <button class="column" id="btn1">查询</button>
+    </div>
+    <script type="text/javascript" src="../static/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript">
+
+
+        document.getElementById("btn1").onclick=function(){
+            let k2p_name = document.getElementById("input1").value
+            console.log(k2p_name);
+            $.ajax({
+                url:"http://127.0.0.1:5000/keyword2paper/data_k2p",
+                type:"POST",
+                data: {en: k2p_name},
+                dataType: "json",
+                success:function(data){
+                    console.log(data);
+                }
+            });
+            window.location.href = '{{ url_for('keyword2paper.index_k2p')}}'
+        }
+    </script>
+</body>
+
+</html>

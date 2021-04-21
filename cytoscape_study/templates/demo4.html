@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .demo1div1{
+            height: 50px;
+            background: ghostwhite;
+            border:1px solid grey;
+            text-align: center;
+            position: relative
+        }
+        .demo1div1 p{
+            position: absolute;
+            left: 10%;
+            bottom: 0;
+            padding: 0;
+            margin: 0;
+        }
+        .demo1div2{
+            height: 100px;
+        }
+        .column{
+            height: 30px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .demo1div3{
+            height: 500px;
+            background: gainsboro;
+        }
+        #input1{
+            width: 400px;
+            margin-left: 30%;
+        }
+        #btn1{
+            width: 80px;
+            background: deepskyblue;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="demo1div1">
+            <p>输入问题:</p>
+        </div>
+
+        <div class="demo1div2">
+            <label>
+                <input class="column" id="input1" v-model="question" placeholder="Enter text">
+            </label>
+            <button class="column" id="btn1" @click="getAnswer">提交</button>
+        </div>
+
+        <div class="demo1div1">
+            <p>关系图:</p>
+        </div>
+
+        <div class="demo1div3">
+
+        </div>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                return: {
+                    question: ''
+                }
+            },
+            methods: {
+                getAnswer() {
+                    axios.get(url, {
+                        params: {
+                            question: this.question
+                        }
+                    }).then((res) => {
+                        this.msg = res.data;
+                    }).catch((error) => {
+                        console.log(error);
+                    })
+                }
+            }
+        })
+</script>
+</body>
+
+</html>
